@@ -137,7 +137,7 @@
             // 
             // carPB
             // 
-            carPB.Image = Properties.Resources.white_car;
+            carPB.Image = Properties.Resources.blue_car;
             carPB.Location = new Point(12, 26);
             carPB.Name = "carPB";
             carPB.Size = new Size(311, 209);
@@ -179,8 +179,10 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(selectColorGB);
+            KeyPreview = true;
             Name = "Bai1Form";
             Text = "Mua bán xe";
+            KeyPress += Bai1Form_KeyPress;
             selectColorGB.ResumeLayout(false);
             selectColorGB.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)carPB).EndInit();

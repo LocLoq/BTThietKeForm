@@ -11,9 +11,13 @@ namespace BTThietKeForm
     public partial class Bai1Form : Form
     {
         private int _sum = 0;
+        private bool[] _easterEggBits = new bool[3];
+        private bool _isEasterEggActivated = false;
+        private int _keyPressCount = 0;
         public Bai1Form()
         {
             InitializeComponent();
+            ResetEasterEggBit();
         }
 
         private void blueRB_CheckedChanged(object sender, EventArgs e)
@@ -23,7 +27,7 @@ namespace BTThietKeForm
             {
                 priceTB.Text = "22000";
                 amountTB.Text = "1";
-                carPB.Image = Properties.Resources.blue_car; // Assuming you have an image resource named blue_car
+                carPB.Image = _isEasterEggActivated? Properties.Resources.sunna : Properties.Resources.blue_car; // Assuming you have an image resource named blue_car
             }
         }
 
@@ -34,7 +38,7 @@ namespace BTThietKeForm
             {
                 priceTB.Text = "21000";
                 amountTB.Text = "1";
-                carPB.Image = Properties.Resources.red_car; // Assuming you have an image resource named red_car
+                carPB.Image = _isEasterEggActivated? Properties.Resources.aria : Properties.Resources.red_car; // Assuming you have an image resource named red_car
             }
         }
 
@@ -45,7 +49,7 @@ namespace BTThietKeForm
             {
                 priceTB.Text = "20000";
                 amountTB.Text = "1";
-                carPB.Image = Properties.Resources.white_car; // Assuming you have an image resource named white_car
+                carPB.Image = _isEasterEggActivated? Properties.Resources.nangong : Properties.Resources.white_car; // Assuming you have an image resource named white_car
             }
         }
 
@@ -57,6 +61,44 @@ namespace BTThietKeForm
             _sum += price * amount;
             // Update the sum label with the total price
             sumLabel.Text = $"{_sum}$";
+        }
+
+        private void Bai1Form_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'a')
+            {
+                _easterEggBits[0] = true;
+            }
+            else if (e.KeyChar == 'o' && _easterEggBits[0])
+            {
+                _easterEggBits[1] = true;
+            }
+            else if (e.KeyChar == 'd' && _easterEggBits[0] && _easterEggBits[1])
+            {
+                _easterEggBits[2] = true;
+            }
+            if (_easterEggBits[0] && _easterEggBits[1] && _easterEggBits[2] && !_isEasterEggActivated)
+            {
+                _isEasterEggActivated = true;
+                ResetEasterEggBit();
+                blueRB.Text = "Sunna";
+                redRB.Text = "Aria";
+                whiteRB.Text = "Nangong";
+                selectColorGB.Text = "Chọn thiên thần";
+            }
+            _keyPressCount++;
+            if (_keyPressCount == 4)
+            {
+                _keyPressCount = 0;
+                ResetEasterEggBit();
+            }
+        }
+        private void ResetEasterEggBit()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _easterEggBits[i] = false;
+            }
         }
     }
 }
